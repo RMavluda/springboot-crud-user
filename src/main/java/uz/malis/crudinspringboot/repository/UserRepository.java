@@ -1,9 +1,7 @@
 package uz.malis.crudinspringboot.repository;
 
-//import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import uz.malis.crudinspringboot.model.Users;
+import uz.malis.crudinspringboot.model.User;
 
-public interface UserRepository extends JpaRepository<Users, Long> {
-//  List<Users> findByLastName(String lastName);
+public interface UserRepository extends JpaRepository<User, Long> {
 }
