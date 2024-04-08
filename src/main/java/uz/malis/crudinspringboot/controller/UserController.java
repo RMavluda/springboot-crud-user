@@ -1,12 +1,14 @@
 package uz.malis.crudinspringboot.controller;
 
-import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 import uz.malis.crudinspringboot.model.User;
 import uz.malis.crudinspringboot.service.UserService;
 
@@ -19,30 +21,34 @@ public class UserController {
   public UserController(UserService userService) {
     this.userService = userService;
   }
+
   @GetMapping("/users")
   public String findAll(Model model){
-    List<User> user = userService.findAll();
-    model.addAttribute("user", user);
+    List<User> users = userService.findAll();
+    model.addAttribute("users", users);
     return "user-list";
   }
+
   @GetMapping("/user-create")
   public String createUserForm(User user){
     return "user-create";
   }
+
   @PostMapping("/user-create")
   public String createUser(User user){
     userService.saveUser(user);
-    return "redirect:/user";
+    return "redirect:/users";
   }
+
   @GetMapping("user-delete/{id}")
   public String deleteUser(@PathVariable("id") Long id){
     userService.deleteById(id);
-    return "redirect:/user";
+    return "redirect:/users";
   }
 
   @GetMapping("/user-update/{id}")
-  public String updateUserForm(Long id, Model model){
-    User user = userService.findById(id);
+  public String updateUserForm(@PathVariable("id") Long id, Model model){
+    Optional<User> user = userService.findById(id);
     model.addAttribute("user", user);
     return "/user-update";
   }
@@ -50,6 +56,6 @@ public class UserController {
   @PostMapping("/user-update")
   public String updateUser(User user){
     userService.saveUser(user);
-    return "redirect:/user";
+    return "redirect:/users";
   }
 }
