@@ -1,13 +1,13 @@
-package uz.malis.crudinspringboot;
+package main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CruDinSpringBootApplication {
+public class UserApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(CruDinSpringBootApplication.class, args);
+    SpringApplication.run(UserApplication.class, args);
   }
 
 }

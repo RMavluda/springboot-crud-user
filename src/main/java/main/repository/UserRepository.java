@@ -1,7 +1,7 @@
-package uz.malis.crudinspringboot.repository;
+package main.repository;
 
+import main.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import uz.malis.crudinspringboot.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 }

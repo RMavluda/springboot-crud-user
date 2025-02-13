@@ -1,11 +1,11 @@
-package uz.malis.crudinspringboot.service;
+package main.service;
 
 import java.util.List;
 import java.util.Optional;
+import main.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uz.malis.crudinspringboot.model.User;
-import uz.malis.crudinspringboot.repository.UserRepository;
+import main.repository.UserRepository;
 
 @Service
 public class UserService {
