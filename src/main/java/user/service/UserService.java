@@ -1,11 +1,11 @@
-package main.service;
+package user.service;
 
 import java.util.List;
 import java.util.Optional;
-import main.model.User;
+import user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import main.repository.UserRepository;
+import user.repository.UserRepository;
 
 @Service
 public class UserService {
