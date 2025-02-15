@@ -23,35 +23,35 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping("/users")
-  public String findAll(Model model) {
-    List<User> users = userService.findAll();
+  @GetMapping("/getAll")
+  public String getAll(Model model) {
+    List<User> users = userService.getAll();
     model.addAttribute("users", users);
-    return "user-list"; // Просто отображаем страницу user-list.html
+    return "user-list";
   }
 
-  @PostMapping("/user-create")
-  public String createUser(User user) {
-    userService.saveUser(user);
-    return "redirect:/user-management/users"; // Перенаправляем на список пользователей
+  @PostMapping("/create")
+  public String create(User user) {
+    userService.create(user);
+    return "redirect:/user-management/users";
   }
 
-  @GetMapping("/user-delete/{id}")
-  public String deleteUser(@PathVariable("id") Long id) {
-    userService.deleteById(id);
-    return "redirect:/user-management/users"; // Перенаправляем на список
-  }
-
-  @GetMapping("/user-update/{id}")
-  public String updateUserForm(@PathVariable("id") Long id, Model model) {
-    Optional<User> user = userService.findById(id);
+  @GetMapping("/get/{id}")
+  public String getById(@PathVariable("id") Long id, Model model) {
+    Optional<User> user = userService.getById(id);
     model.addAttribute("user", user.orElse(null));
-    return "user-update"; // Показываем страницу редактирования
+    return "user-update";
   }
 
-  @PostMapping("/user-update")
-  public String updateUser(User user) {
-    userService.saveUser(user);
-    return "redirect:/user-management/users"; // После обновления идём на список пользователей
+  @PostMapping("/update/{id}")
+  public String updateById(User user) {
+    userService.update(user);
+    return "redirect:/user-management/users";
+  }
+
+  @GetMapping("/delete/{id}")
+  public String deleteById(@PathVariable("id") Long id) {
+    userService.deleteById(id);
+    return "redirect:/user-management/users";
   }
 }
