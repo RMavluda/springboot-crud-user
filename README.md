@@ -20,7 +20,7 @@ This project is a simple **User Management System** built with **Spring Boot**, 
 
 ### 1. Clone the Repository
 ```sh
-[git clone https://github.com/RMavluda/springboot-crud-user.git]
+git clone https://github.com/RMavluda/springboot-crud-user.git
 cd user-management
 ```
 
