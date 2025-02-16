@@ -1,11 +1,16 @@
 package user.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import user.dto.UserResponseDto;
 import user.model.User;
 import user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @RequestMapping("/user-management")
-@Controller
+@RestController
+@Tag(name = "Users")
 public class UserController {
 
   private final UserService userService;
@@ -24,23 +30,19 @@ public class UserController {
   }
 
   @GetMapping("/getAll")
-  public String getAll(Model model) {
-    List<User> users = userService.getAll();
-    model.addAttribute("users", users);
-    return "user-list";
+  public ResponseEntity<List<UserResponseDto>> getAll() {
+    return ResponseEntity.ok(userService.getAll());
   }
 
   @PostMapping("/create")
-  public String create(User user) {
+  public ResponseEntity<Void> create(User user) {
     userService.create(user);
-    return "redirect:/user-management/users";
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @GetMapping("/get/{id}")
-  public String getById(@PathVariable("id") Long id, Model model) {
-    Optional<User> user = userService.getById(id);
-    model.addAttribute("user", user.orElse(null));
-    return "user-update";
+  public ResponseEntity<UserResponseDto> getById(Long id) {
+    return ResponseEntity.ok(userService.getById(id));
   }
 
   @PostMapping("/update/{id}")

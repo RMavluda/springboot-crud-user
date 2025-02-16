@@ -1,34 +1,41 @@
 package user.service;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
-import user.model.User;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import user.dto.UserResponseDto;
+import user.model.User;
 import user.repository.UserRepository;
 
 @Service
+@AllArgsConstructor
 public class UserService {
+
   private final UserRepository userRepository;
 
-  @Autowired
-  public UserService(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  public List<UserResponseDto> getAll() {
+    return userRepository.findAll().stream()
+        .map(UserResponseDto::new)
+        .collect(Collectors.toList());
   }
 
-  public List<User> getAll(){
-    return userRepository.findAll();
-  }
   public void create(User user) {
     userRepository.save(user);
   }
-  public Optional<User> getById(Long id) {
-    return Optional.of(userRepository.getById(id));
+
+  public UserResponseDto getById(Long id) {
+    return new UserResponseDto(userRepository.getById(id));
   }
+
+  @Transactional
   public void update(User user) {
     userRepository.save(user);
   }
-  public void deleteById(Long id){
+
+  public void deleteById(Long id) {
     userRepository.deleteById(id);
   }
 
