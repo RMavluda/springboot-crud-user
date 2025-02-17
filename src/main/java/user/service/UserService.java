@@ -2,9 +2,11 @@ package user.service;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import user.dto.UserResponseDto;
 import user.model.User;
@@ -12,6 +14,7 @@ import user.repository.UserRepository;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService {
 
   private final UserRepository userRepository;
@@ -26,9 +29,15 @@ public class UserService {
     userRepository.save(user);
   }
 
-  public UserResponseDto getById(Long id) {
-    return new UserResponseDto(userRepository.getById(id));
+  public Optional<UserResponseDto> getById(Long id) throws BadRequestException {
+    try {
+      return userRepository.findById(id).map(UserResponseDto::new);
+    } catch (Exception e) {
+      log.info("User not found with id {}", id);
+      throw new BadRequestException(e.getMessage());
+    }
   }
+
 
   @Transactional
   public void update(User user) {

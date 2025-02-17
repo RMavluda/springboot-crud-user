@@ -1,17 +1,16 @@
 package user.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import user.dto.UserResponseDto;
 import user.model.User;
 import user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,8 +40,10 @@ public class UserController {
   }
 
   @GetMapping("/get/{id}")
-  public ResponseEntity<UserResponseDto> getById(Long id) {
-    return ResponseEntity.ok(userService.getById(id));
+  public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) throws BadRequestException {
+    return userService.getById(id)
+        .map(ResponseEntity::ok)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id));
   }
 
   @PostMapping("/update/{id}")
