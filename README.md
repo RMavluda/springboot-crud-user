@@ -216,9 +216,3 @@ Use it to explore and test REST APIs.
 * Kafka functionality was tested separately in a dedicated `kafka-demo` project
 
 ---
-
-### ✅ Commit message (recommended)
-```bash
-git add README.md
-git commit -m "docs: add English README with architecture diagram"
-````
